@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 }
 
 resource "aws_cloudwatch_log_group" "log_group" {
-  name = "${data.aws_cloudwatch_log_group.log_group.lg_prod}"
+  name = "${data.aws_cloudwatch_log_group.log_group.lg_prod.name}"
 }
 
 resource "aws_cloudwatch_log_stream" "log_stream" {
@@ -25,7 +25,7 @@ resource "aws_cloudwatch_log_stream" "log_stream" {
 }
 
 data "aws_ecs_cluster" "cluster" {
-  name = "cl_prod"
+  cluster_name = "cl_prod"
 }
 
 data "aws_cloudwatch_log_group" "log_group" {
