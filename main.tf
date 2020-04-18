@@ -1,0 +1,33 @@
+resource "aws_ecs_service" "service" {
+  name            = "${var.service_name}"
+  cluster         = "${data.aws_ecs_cluster.cluster.id}"
+  task_definition = "${aws_ecs_task_definition.task_definition.arn}"
+  desired_count   = 1
+
+  placement_constraints {
+    type       = "memberOf"
+    expression = "attribute:ecs.availability-zone in [eu-west-1c]"
+  }
+}
+
+resource "aws_ecs_task_definition" "task_definition" {
+  family = "${var.service_name}"
+  container_definitions = "${var.task_definition}"
+}
+
+resource "aws_cloudwatch_log_group" "log_group" {
+  name = "${data.aws_cloudwatch_log_group.log_group.lg_prod}"
+}
+
+resource "aws_cloudwatch_log_stream" "log_stream" {
+  name           = "ls_${var.service_name}"
+  log_group_name = "${aws_cloudwatch_log_group.log_group.name}"
+}
+
+data "aws_ecs_cluster" "cluster" {
+  name = "cl_prod"
+}
+
+data "aws_cloudwatch_log_group" "log_group" {
+  name = "lg_prod"
+}
