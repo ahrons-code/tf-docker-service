@@ -1,2 +1,2 @@
-var service_name {}
-var task_definition {}
+variable "service_name" {}
+variable "task_definition" {}
