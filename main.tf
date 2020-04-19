@@ -12,7 +12,17 @@ resource "aws_ecs_service" "service" {
 
 resource "aws_ecs_task_definition" "task_definition" {
   family = "${var.service_name}"
-  container_definitions = "${var.task_definition}"
+  container_definitions = "${data.template_file.init.rendered}"
+}
+
+data "template_file" "init" {
+  template = "${file("${path.module}/service.json")}"
+  vars = {
+    internal = "${var.internal_port}"
+    external = "${var.external_port}"
+    protocol = "${var.port_protocol}"
+    log_stream = "ls_${var.service_name}"
+  }
 }
 
 resource "aws_cloudwatch_log_stream" "log_stream" {

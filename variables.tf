@@ -1,2 +1,4 @@
 variable "service_name" {}
-variable "task_definition" {}
+variable "internal_port" {}
+variable "external_port" {}
+variable "port_protocol" {}
