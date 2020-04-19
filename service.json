@@ -5,7 +5,13 @@
     "cpu": 256,
     "memory": 256,
     "essential": true,
-    "portMappings": "${docker_ports}",
+    "portMappings": [
+      {
+        "hostPort": "${external}",
+        "protocol": "${protocol}",
+        "containerPort": "${internal}"
+      }
+    ],"${docker_ports}",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
