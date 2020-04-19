@@ -11,7 +11,7 @@
         "protocol": "${protocol}",
         "containerPort": ${tonumber(internal)}
     }
-    ],"${docker_ports}",
+    ],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
