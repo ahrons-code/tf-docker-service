@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 }
 
 data "template_file" "init" {
-  template = "${file("${service.json}")}"
+  template = "${file("service.json")}"
   vars = {
     docker_ports = "${var.docker_ports}"
   }
