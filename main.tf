@@ -1,3 +1,6 @@
+locals {
+  envs = var.environment == null ? null : jsonencode(var.environment)
+}
 resource "aws_ecs_service" "service" {
   name            = "${var.service_name}"
   cluster         = "${data.aws_ecs_cluster.cluster.id}"
@@ -22,7 +25,7 @@ data "template_file" "init" {
     external = "${var.external_port}"
     protocol = "${var.port_protocol}"
     log_stream = "ls_${var.service_name}"
-    env = "${jsonencode(var.environment)}"
+    env = "${local.envs}"
   }
 }
 
