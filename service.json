@@ -17,7 +17,7 @@
       "options": {
         "awslogs-group": "lg_prod",
         "awslogs-region": "eu-west-1",
-        "awslogs-stream-prefix": "ls_linkresolver"
+        "awslogs-stream-prefix": "${log_stream}"
       }
     }
   }
