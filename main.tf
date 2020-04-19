@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.region
+}
+
 resource "aws_ecs_service" "service" {
   name            = "${var.service_name}"
   cluster         = "${data.aws_ecs_cluster.cluster.id}"
