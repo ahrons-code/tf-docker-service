@@ -1,4 +1,8 @@
 variable "service_name" {}
 variable "docker_ports" {
-  type = list(string)
+  type = list(object({
+    internal = number
+    external = number
+    protocol = string
+  }))
 }
