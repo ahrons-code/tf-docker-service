@@ -7,5 +7,5 @@ variable "environment" {
     name  = string
     value = string
   }))
-  default     = null
+  default     = []
 }

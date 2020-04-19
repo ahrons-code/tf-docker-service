@@ -1,5 +1,5 @@
 locals {
-  envs = var.environment == null ? null : jsonencode(var.environment)
+  envs = length(var.environment) > 0 ? null : jsonencode(var.environment)
 }
 resource "aws_ecs_service" "service" {
   name            = "${var.service_name}"
