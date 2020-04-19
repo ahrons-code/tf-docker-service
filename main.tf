@@ -12,11 +12,11 @@ resource "aws_ecs_service" "service" {
 
 resource "aws_ecs_task_definition" "task_definition" {
   family = "${var.service_name}"
-  container_definitions = "${var.task_definition}"
+  container_definitions = "${data.template_file}"
 }
 
 data "template_file" "init" {
-  template = "${file("${path.module}/init.tpl")}"
+  template = "${file("${service.json}")}"
   vars = {
     docker_ports = "${var.docker_ports}"
   }
