@@ -7,10 +7,10 @@
     "essential": true,
     "portMappings": [
       {
-        "hostPort": "${external}",
+        "hostPort": ${tonumber(external)},
         "protocol": "${protocol}",
-        "containerPort": "${internal}"
-      }
+        "containerPort": ${tonumber(internal)}
+    }
     ],"${docker_ports}",
     "logConfiguration": {
       "logDriver": "awslogs",

@@ -16,11 +16,11 @@ resource "aws_ecs_task_definition" "task_definition" {
 }
 
 data "template_file" "init" {
-  template = "${file(".terraform/modules/service/service.json")}"
+  template = "${file("${path.module}/service.json")}"
   vars = {
-    internal = "${var.docker_internal_port}"
-    external = "${var.docker_external_port}"
-    protocol = "${var.docker_port_protocol}"
+    internal = "${var.internal_port}"
+    external = "${var.external_port}"
+    protocol = "${var.port_protocol}"
   }
 }
 
