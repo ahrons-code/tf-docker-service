@@ -15,6 +15,13 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = "${var.task_definition}"
 }
 
+data "template_file" "init" {
+  template = "${file("${path.module}/init.tpl")}"
+  vars = {
+    docker_ports = "${var.docker_ports}"
+  }
+}
+
 resource "aws_cloudwatch_log_stream" "log_stream" {
   name           = "ls_${var.service_name}"
   log_group_name = "${data.aws_cloudwatch_log_group.log_group.name}"
