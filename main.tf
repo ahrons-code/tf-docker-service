@@ -31,6 +31,7 @@ data "template_file" "init" {
     protocol = var.port_protocol
     log_stream = "ls_${var.service_name}"
     env = local.envs
+    service_name = var.service_name
   }
 }
 
