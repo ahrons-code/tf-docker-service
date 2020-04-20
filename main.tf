@@ -1,5 +1,5 @@
 locals {
-  envs = length(var.environment) > 0 ? null : jsonencode(var.environment)
+  envs = length(var.environment) > 0 ? jsonencode(var.environment) : null
 }
 
 provider "aws" {
