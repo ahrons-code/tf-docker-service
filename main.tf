@@ -7,14 +7,15 @@ provider "aws" {
 }
 
 resource "aws_ecs_service" "service" {
-  name            = var.service_name
-  cluster         = data.aws_ecs_cluster.cluster.id
+  name = var.service_name
+  cluster = data.aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
-  desired_count   = 1
+  desired_count = 1
 
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [eu-west-1c]"
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.tgip.arn}"
+    container_name   = "${var.service_name}"
+    container_port   = var.internal_port
   }
 }
 
@@ -36,8 +37,39 @@ data "template_file" "init" {
 }
 
 resource "aws_cloudwatch_log_stream" "log_stream" {
-  name           = "ls_${var.service_name}"
+  name = "ls_${var.service_name}"
   log_group_name = data.aws_cloudwatch_log_group.log_group.name
+}
+
+
+resource "aws_lb_target_group" "tgip" {
+  name = "tgip-${var.service_name}"
+  port = 80
+  protocol = "TCP"
+  target_type = "instance"
+  vpc_id = "${data.aws_vpc.private_1.id}"
+}
+
+resource "aws_lb_listener" "nlb_listener" {
+  load_balancer_arn = "${data.aws_lb.nlb.arn}"
+  port              = "80"
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = "${aws_lb_target_group.tgip.arn}"
+  }
+}
+
+data "aws_lb" "nlb" {
+  name = "nlbprivate1"
+}
+
+data "aws_vpc" "private_1" {
+  filter {
+    name   = "tag:Name"
+    values = ["private_1"]
+  }
 }
 
 data "aws_ecs_cluster" "cluster" {
