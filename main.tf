@@ -44,7 +44,7 @@ resource "aws_cloudwatch_log_stream" "log_stream" {
 
 resource "aws_lb_target_group" "tgip" {
   name = "tgip-${var.service_name}"
-  port = 80
+  port = var.external_port
   protocol = "TCP"
   target_type = "instance"
   vpc_id = "${data.aws_vpc.private_1.id}"
@@ -52,7 +52,7 @@ resource "aws_lb_target_group" "tgip" {
 
 resource "aws_lb_listener" "nlb_listener" {
   load_balancer_arn = "${data.aws_lb.nlb.arn}"
-  port              = "80"
+  port              = var.external_port
   protocol          = "TCP"
 
   default_action {
