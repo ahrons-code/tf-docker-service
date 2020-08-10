@@ -11,12 +11,6 @@ resource "aws_ecs_service" "service" {
   cluster = data.aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count = 1
-
-  load_balancer {
-    target_group_arn = "${aws_lb_target_group.tgip.arn}"
-    container_name   = "${var.service_name}"
-    container_port   = var.internal_port
-  }
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
