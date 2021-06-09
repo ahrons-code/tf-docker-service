@@ -12,11 +12,11 @@ resource "aws_ecs_service" "service" {
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count = 1
   force_new_deployment = true
-  iam_role        = "arn:aws:iam::245954399621:role/developer-admin"
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
   family = var.service_name
+  execution_role_arn    = "arn:aws:iam::245954399621:role/developer-admin"
   container_definitions = data.template_file.init.rendered
 }
 
